@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
@@ -16,22 +16,43 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Name',
     dataIndex: 'name',
+    sorter: {
+      compare: (a, b) => a.name.localeCompare(b.name),
+      // multiple: 2,
+    },
   },
   {
     title: 'Quantity',
     dataIndex: 'quantity',
+    sorter: {
+      compare: (a, b) => a.quantity - b.quantity,
+      // multiple: 3,
+    },
   },
   {
     title: 'Delivery date',
     dataIndex: 'deliveryDate',
+    defaultSortOrder: 'ascend',
+    sorter: {
+      compare: (a, b) => a.deliveryDate.localeCompare(b.deliveryDate),
+      // multiple: 5,
+    },
   },
   {
     title: 'Price',
     dataIndex: 'price',
+    sorter: {
+      compare: (a, b) => a.price - b.price,
+      // multiple: 4,
+    },
   },
   {
     title: 'Currency',
     dataIndex: 'currency',
+    sorter: {
+      compare: (a, b) => a.currency.localeCompare(b.currency),
+      // multiple: 1,
+    },
   },
 ];
 
@@ -42,7 +63,15 @@ interface MainTableProps {
 const MainTable: React.FC<MainTableProps> = ({data}) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sum, setSum] = useState(0);
   
+  useEffect(() => {
+    setSum(data.reduce((sum, current) => sum + current.quantity, 0))
+  })
+  
+  // const countSum = () => {
+  //   data.reduce((sum, current) => sum + current.quantity, 0)
+  // }
 
   const start = () => {
     setLoading(true);
@@ -74,7 +103,7 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
           {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
         </span>
       </div>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} rowKey={(row) => row.id} />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={data} rowKey={(row) => row.id} footer={() => `Общее количество: ${sum}`}/>
     </div>
   );
 };
