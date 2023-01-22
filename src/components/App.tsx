@@ -1,25 +1,28 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { DataType } from '../types/DataType'
+import { Spin } from 'antd'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { getTableData, tableDataSelector, tableLoadingSelector } from '../store/tableSlice'
 import MainTable from './Table'
 
 function App() {
-  const [data, setData] = useState<DataType[]>([])
-
-  const docOne = axios.get('http://127.0.0.1:3008/documents1')
-  const docTwo = axios.get('http://127.0.0.1:3008/documents2')
+  const dispatch = useAppDispatch()
+  const data = useAppSelector(tableDataSelector)
+  const isLoading = useAppSelector(tableLoadingSelector)
 
   useEffect(() => {
-    Promise.all([docOne, docTwo]).then(([docOne, docTwo]) =>
-      setData([...docOne.data, ...docTwo.data]),
-    )
+    dispatch(getTableData())
   }, [])
 
-  return (
-    <div className='App'>
-      <MainTable data={data} />
-    </div>
-  )
+  if (isLoading) {
+    return (
+      <div
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+      >
+        <Spin tip='Загрузка' size='large'></Spin>
+      </div>
+    )
+  }
+  return <MainTable data={data} />
 }
 
 export default App

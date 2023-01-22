@@ -1,0 +1,151 @@
+{
+  "uuid": "44c9f353-330d-46b7-801b-029f2b56b8a2",
+  "lastMigration": 25,
+  "name": "Test gazprom",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3008,
+  "hostname": "127.0.0.1",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "392177a6-6a9e-4a4c-a755-2c03d3502653",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "documents1",
+      "responses": [
+        {
+          "uuid": "8f7f428a-66b3-480b-9d6e-fe5b68324464",
+          "body": "[\r\n  {{# repeat 50}}\r\n  {\r\n    \"id\": \"{{faker 'datatype.uuid'}}\",\r\n    \"name\": \"{{faker 'name.firstName'}}\",\r\n    \"quantity\": {{faker 'datatype.number' 500}},\r\n    \"deliveryDate\": \"{{faker 'date.recent'}}\",\r\n    \"price\": {{faker 'commerce.price' 1000 3000 0}},\r\n    \"currency\": \"USD\"\r\n  }\r\n  {{/ repeat}}\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "7ae7ac71-b874-466b-9318-cc5ae936b74e",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "documents2",
+      "responses": [
+        {
+          "uuid": "340469e5-c1c2-4f20-ab36-1fed9b289ee1",
+          "body": "[\r\n  {{# repeat 50}}\r\n  {\r\n    \"id\": \"{{faker 'datatype.uuid'}}\",\r\n    \"name\": \"{{faker 'name.firstName'}}\",\r\n    \"quantity\": {{faker 'datatype.number' 500}},\r\n    \"deliveryDate\": \"{{faker 'date.recent'}}\",\r\n    \"price\": {{faker 'commerce.price' 4000 8000 0}},\r\n    \"currency\": \"RUB\"\r\n  }\r\n  {{/ repeat}}\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "e4a6b1cc-7514-48df-955b-ec3cad8522a4",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "cancel",
+      "responses": [
+        {
+          "uuid": "b2c40b48-bb65-44a4-a525-79190e2a70d1",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "392177a6-6a9e-4a4c-a755-2c03d3502653"
+    },
+    {
+      "type": "route",
+      "uuid": "7ae7ac71-b874-466b-9318-cc5ae936b74e"
+    },
+    {
+      "type": "route",
+      "uuid": "e4a6b1cc-7514-48df-955b-ec3cad8522a4"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "http://gazprom./",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": []
+}
