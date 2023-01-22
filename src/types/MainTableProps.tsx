@@ -1,5 +1,5 @@
-import { DataType } from "./DataType";
+import { DataType } from './DataType'
 
 export interface MainTableProps {
-    data: DataType[]
+  data: DataType[]
 }
