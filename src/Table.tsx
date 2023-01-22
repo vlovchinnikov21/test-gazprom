@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TableProps } from 'antd/es/table';
 
 interface DataType {
   id: string,
@@ -8,7 +8,7 @@ interface DataType {
   quantity: number;
   deliveryDate: string;
   price: number;
-  currency: string;
+  currency: 'USD' | 'RUB';
 }
 
 
@@ -18,7 +18,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'name',
     sorter: {
       compare: (a, b) => a.name.localeCompare(b.name),
-      // multiple: 2,
+      multiple: 5,
     },
   },
   {
@@ -26,7 +26,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'quantity',
     sorter: {
       compare: (a, b) => a.quantity - b.quantity,
-      // multiple: 3,
+      multiple: 4,
     },
   },
   {
@@ -34,8 +34,8 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'deliveryDate',
     defaultSortOrder: 'ascend',
     sorter: {
-      compare: (a, b) => a.deliveryDate.localeCompare(b.deliveryDate),
-      // multiple: 5,
+      compare: (a, b) => Date.parse(a.deliveryDate) - Date.parse(b.deliveryDate),
+      multiple: 3,
     },
   },
   {
@@ -43,7 +43,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'price',
     sorter: {
       compare: (a, b) => a.price - b.price,
-      // multiple: 4,
+      multiple: 2,
     },
   },
   {
@@ -51,7 +51,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'currency',
     sorter: {
       compare: (a, b) => a.currency.localeCompare(b.currency),
-      // multiple: 1,
+      multiple: 1,
     },
   },
 ];
@@ -66,12 +66,12 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
   const [sum, setSum] = useState(0);
   
   useEffect(() => {
-    setSum(data.reduce((sum, current) => sum + current.quantity, 0))
-  })
+     if(data.length > 0) {
+      const quantitySum = data.reduce((sum, current) => sum + current.quantity, 0)
+      setSum(quantitySum)
+     }
+  }, [data.length])
   
-  // const countSum = () => {
-  //   data.reduce((sum, current) => sum + current.quantity, 0)
-  // }
 
   const start = () => {
     setLoading(true);
@@ -87,6 +87,7 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
+  
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,

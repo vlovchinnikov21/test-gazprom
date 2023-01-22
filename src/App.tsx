@@ -8,7 +8,7 @@ interface DataType {
   quantity: number;
   deliveryDate: string;
   price: number;
-  currency: string;
+  currency: 'USD' | 'RUB';
 }
 
 
@@ -24,7 +24,6 @@ function App() {
     .then(([docOne, docTwo]) => setData([...docOne.data, ...docTwo.data]))
   }, [])
 
-  console.log(data)
   
     return (
     <div className="App">
