@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import axios from 'axios';
-
-  interface DataType {
-    id: string,
-    name: string;
-    quantity: number;
-    deliveryDate: string;
-    price: number;
-    currency: 'USD' | 'RUB';
-  }
-  
-
-interface ModalProps {
-        open: boolean,
-        setOpen: React.Dispatch<React.SetStateAction<boolean>>
-        selectedProducts: DataType[]
-}
+import { ModalProps } from '../types/ModalProps';
+ 
 
 const ItemCancelModal: React.FC<ModalProps> = ({open, setOpen, selectedProducts}) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
