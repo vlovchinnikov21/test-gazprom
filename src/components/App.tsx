@@ -1,15 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { DataType } from "../types/DataType";
 import MainTable from "./Table"
-
-interface DataType {
-  id: string,
-  name: string;
-  quantity: number;
-  deliveryDate: string;
-  price: number;
-  currency: 'USD' | 'RUB';
-}
 
 
 function App() {
