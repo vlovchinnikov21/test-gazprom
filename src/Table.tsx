@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'antd';
-import type { ColumnsType, TableProps } from 'antd/es/table';
+import type { ColumnsType } from 'antd/es/table';
+import ItemCancelModal from './ItemCancelModal';
 
 interface DataType {
   id: string,
@@ -61,9 +62,11 @@ interface MainTableProps {
 }
 
 const MainTable: React.FC<MainTableProps> = ({data}) => {
+  const [open, setOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
   const [sum, setSum] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState<DataType[]>([]);
   
   useEffect(() => {
      if(data.length > 0) {
@@ -72,6 +75,10 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
      }
   }, [data.length])
   
+  const showModal = () => {
+    setSelectedProduct(data.filter((item) => selectedRowKeys.some((rowKey) => rowKey === item.id)))
+    setOpen(true);
+  };
 
   const start = () => {
     setLoading(true);
@@ -84,25 +91,30 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
 
    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);    
   };
-
   
+      
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
+  
   const hasSelected = selectedRowKeys.length > 0;
 
   return (
     <div>
+      <ItemCancelModal open={open} setOpen={setOpen} selectedProducts={selectedProduct} />
       <div style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-          Reload
+          Сбросить
         </Button>
-        <span style={{ marginLeft: 8 }}>
-          {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+        <span style={{ marginLeft: 8, marginRight: 8 }}>
+          {hasSelected ? `Выбрано ${selectedRowKeys.length} товаров` : ''}
         </span>
+        <Button type="primary" onClick={showModal}>
+          Аннулировать
+        </Button>
       </div>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} rowKey={(row) => row.id} footer={() => `Общее количество: ${sum}`}/>
     </div>
